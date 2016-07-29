@@ -1,0 +1,5 @@
+name: udn_login
+type: module
+description: Customize login page for udn site.
+core: 8.x
+package: Custom

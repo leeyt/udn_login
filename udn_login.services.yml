@@ -1,0 +1,5 @@
+services:
+  udn_login.route_subscriber:
+    class: 'Drupal\udn_login\EventSubscriber\RouteSubscriber'
+    tags:
+      - { name: event_subscriber }

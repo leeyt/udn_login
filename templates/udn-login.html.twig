@@ -1,0 +1,27 @@
+{#
+{{ kint(element) }}
+#}
+
+{{ element.name }}
+{{ element.pass }}
+{{ element.form_build_id }}
+{{ element.form_id }}
+
+{#
+{{ element.actions }}
+#}
+
+<!--
+  <div>
+    <input type="text"><span class="highlight"></span><span class="bar"></span>
+    <label>帳號</label>
+  </div>
+
+  <div class="group">
+    <input type="password"><span class="highlight"></span><span class="bar"></span>
+    <label>密碼</label>
+  </div>
+-->
+  <button id="edit-submit" type="button" class="button buttonBlue js-form-submit form-submit">登入
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+  </button>
