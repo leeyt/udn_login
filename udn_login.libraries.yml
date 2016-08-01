@@ -1,0 +1,7 @@
+login-page:
+  version: VERSION
+  css:
+    base:
+      css/style.css: {}
+  js:
+    js/login.js: {}
