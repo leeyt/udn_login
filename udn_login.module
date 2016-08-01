@@ -7,7 +7,6 @@
 use Drupal\Component\Utility\Crypt;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Render\Element;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Implements hook_theme().
@@ -32,13 +31,37 @@ function udn_login_theme() {
     'input__password' => [
       'render element' => 'element',
     ],
-
+    'input__user_login' => [
+      'render element' => 'element',
+    ],
   ];
 }
 
 function udn_login_theme_suggestions_form_alter(array &$suggestions,
   array $variables) {
   $suggestions[] = "form__" . $variables['element']['#form_id'];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function udn_login_theme_suggestions_input__textfield_alter(array &$suggestions,
+  array $variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ('user.login' === $route_name) {
+    $suggestions[] = 'input__user_login';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function udn_login_theme_suggestions_input__password_alter(array &$suggestions,
+  array $variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ('user.login' === $route_name) {
+    $suggestions[] = 'input__user_login';
+  }
 }
 
 /**
