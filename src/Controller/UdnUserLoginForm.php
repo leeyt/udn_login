@@ -12,12 +12,12 @@ class UdnUserLoginForm extends UserLoginForm {
 
     unset($form['name']['#title']);
     unset($form['name']['#description']);
-    $form['name']['label'] = '帳號';
+    $form['name']['#udn_label'] = '帳號';
     // $form['name']['#attributes']['placeholder'] = '帳號';
 
     unset($form['pass']['#title']);
     unset($form['pass']['#description']);
-    $form['pass']['label'] = '密碼';
+    $form['pass']['#udn_label'] = '密碼';
     // $form['pass']['#attributes']['placeholder'] = '密碼';
 
     $form['#theme'] = [ 'udn_login' ];
