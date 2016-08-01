@@ -1,4 +1,4 @@
-$(window, document, undefined).ready(function() {
+(function($) {
 
   $('input').blur(function() {
     var $this = $(this);
@@ -32,7 +32,8 @@ $(window, document, undefined).ready(function() {
     $(this).removeClass('is-active');
   });
 
-  $('button').on('click', function() {
-    this.parentNode.submit();
+  var $loginForm = $('#user-login-form');
+  $loginForm.find('button').click(function() {
+    $loginForm.submit();
   });
-});
+})(jQuery);
