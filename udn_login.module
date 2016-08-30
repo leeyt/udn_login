@@ -11,9 +11,6 @@ use Drupal\Core\Render\Element;
  */
 function udn_login_theme() {
   return [
-    'html__user__login' => [
-      'base hook' => 'html',
-    ],
     'page__user__login' => [
       'base hook' => 'page'
     ],
@@ -56,8 +53,17 @@ function udn_login_preprocess_page__user__login(array &$variables) {
  * Implements hook_preprocess_HOOK().
  */
 function udn_login_preprocess_user_login_form(array &$variables) {
-  $element = &$variables['element'];
-  unset($element['name']['#theme_wrappers']);
-  unset($element['pass']['#theme_wrappers']);
+  $form = &$variables['element'];
+
+  unset($form['name']['#title']);
+  unset($form['name']['#description']);
+  $form['name']['#label'] = '帳號';
+
+  unset($form['pass']['#title']);
+  unset($form['pass']['#description']);
+  $form['pass']['#label'] = '密碼';
+
+  unset($form['name']['#theme_wrappers']);
+  unset($form['pass']['#theme_wrappers']);
 }
 
