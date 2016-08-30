@@ -11,9 +11,6 @@ use Drupal\Core\Render\Element;
  */
 function udn_login_theme() {
   return [
-    'html__user__login' => [
-      'base hook' => 'html',
-    ],
     'page__user__login' => [
       'base hook' => 'page'
     ],
