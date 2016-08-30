@@ -6,7 +6,7 @@ use Drupal\Core\Routing\RouteSubscriberBase;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-class RouteSubscriber extends RouteSubscriberBase {
+class UserLoginRouteSubscriber extends RouteSubscriberBase {
 
   /**
    * Alters existing routes for a specific collection.
@@ -18,7 +18,7 @@ class RouteSubscriber extends RouteSubscriberBase {
     /** @var Route $route */
     $route = $collection->get('user.login');
     if (isset($route)) {
-      $route->setDefault('_form', '\Drupal\udn_login\Controller\UdnUserLoginForm');
+      $route->setDefault('_form', '\Drupal\udn_login\Form\UdnUserLoginForm');
     }
   }
 

@@ -4,8 +4,6 @@
  * @file
  * Contains udn_login.module.
  */
-use Drupal\Component\Utility\Crypt;
-use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Render\Element;
 
 /**
@@ -14,97 +12,15 @@ use Drupal\Core\Render\Element;
 function udn_login_theme() {
   return [
     'html__user__login' => [
-      'render element' => 'html',
+      'base hook' => 'html',
     ],
     'page__user__login' => [
-      'render element' => 'page',
+      'base hook' => 'page'
     ],
-    'form__user_login_form' => [
-      'render element' => 'form',
-    ],
-    'udn_login' => [
-      'render element' => 'element',
-    ],
-    'input__textfield' => [
-      'render element' => 'element',
-    ],
-    'input__password' => [
-      'render element' => 'element',
-    ],
-    'input__user_login' => [
+    'user_login_form' => [
       'render element' => 'element',
     ],
   ];
-}
-
-function udn_login_theme_suggestions_form_alter(array &$suggestions,
-  array $variables) {
-  $suggestions[] = "form__" . $variables['element']['#form_id'];
-}
-
-/**
- * Implements hook_theme_suggestions_HOOK_alter().
- */
-function udn_login_theme_suggestions_input__textfield_alter(array &$suggestions,
-  array $variables) {
-  $route_name = \Drupal::routeMatch()->getRouteName();
-  if ('user.login' === $route_name) {
-    $suggestions[] = 'input__user_login';
-  }
-}
-
-/**
- * Implements hook_theme_suggestions_HOOK_alter().
- */
-function udn_login_theme_suggestions_input__password_alter(array &$suggestions,
-  array $variables) {
-  $route_name = \Drupal::routeMatch()->getRouteName();
-  if ('user.login' === $route_name) {
-    $suggestions[] = 'input__user_login';
-  }
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function udn_login_preprocess_html__user__login(&$variables) {
-  // Create placeholder strings for these keys.
-  // @see \Drupal\Core\Render\HtmlResponseSubscriber
-  $types = [
-    'styles' => 'css',
-    'scripts' => 'js',
-    'scripts_bottom' => 'js-bottom',
-  ];
-  $variables['placeholder_token'] = Crypt::randomBytesBase64(55);
-  foreach ($types as $type => $placeholder_name) {
-    $placeholder = '<' . $placeholder_name . '-placeholder token="' . $variables['placeholder_token'] . '">';
-    $variables['#attached']['html_response_attachment_placeholders'][$type] = $placeholder;
-  }
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function udn_login_preprocess_page__user__login(array &$variables) {
-  if (isset($variables['page']['#attached']['library'])) {
-    unset($variables['page']['#attached']['library']);
-  }
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function udn_login_preprocess_form__user_login_form(&$variables) {
-  $element = $variables['element'];
-  if (isset($element['#action'])) {
-    $element['#attributes']['action'] = UrlHelper::stripDangerousProtocols($element['#action']);
-  }
-  Element::setAttributes($element, array('method', 'id'));
-  if (empty($element['#attributes']['accept-charset'])) {
-    $element['#attributes']['accept-charset'] = "UTF-8";
-  }
-  $variables['attributes'] = $element['#attributes'];
-  $variables['children'] = $element['#children'];
 }
 
 /**
@@ -115,3 +31,33 @@ function udn_login_page_attachments_alter(array &$attachments) {
     unset($attachments['#attached']['library']);
   }
 }
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function udn_login_preprocess_page__user__login(array &$variables) {
+  $page = &$variables['page'];
+  foreach (Element::children($page) as $region) {
+    if ($region != 'content') {
+      unset($page[$region]);
+    }
+  }
+
+  $content_block = \Drupal::theme()->getActiveTheme()->getName() . '_content';
+  $content_region = &$variables['page']['content'];
+  foreach (Element::children($content_region) as $block) {
+    if ($block != $content_block) {
+      unset($content_region[$block]);
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function udn_login_preprocess_user_login_form(array &$variables) {
+  $element = &$variables['element'];
+  unset($element['name']['#theme_wrappers']);
+  unset($element['pass']['#theme_wrappers']);
+}
+
