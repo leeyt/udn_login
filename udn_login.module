@@ -12,7 +12,7 @@ use Drupal\Core\Render\Element;
 function udn_login_theme() {
   return [
     'page__user__login' => [
-      'base hook' => 'page'
+      'base hook' => 'page',
     ],
     'user_login_form' => [
       'render element' => 'element',
@@ -62,6 +62,8 @@ function udn_login_preprocess_user_login_form(array &$variables) {
   unset($form['pass']['#title']);
   unset($form['pass']['#description']);
   $form['pass']['#label'] = '密碼';
+
+  unset($form['actions']);
 
   unset($form['name']['#theme_wrappers']);
   unset($form['pass']['#theme_wrappers']);
