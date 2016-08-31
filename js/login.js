@@ -2,15 +2,12 @@
 
   $('input').blur(function() {
     var $this = $(this);
-    if ($this.val())
-      $this.addClass('used');
-    else
-      $this.removeClass('used');
+    $this.toggleClass('used', $this.val() !== '');
   });
 
   var $ripples = $('.ripples');
 
-  $ripples.on('click.Ripples', function(e) {
+  $ripples.on('click', function(e) {
 
     var $this = $(this);
     var $offset = $this.parent().offset();
@@ -25,15 +22,9 @@
     });
 
     $this.addClass('is-active');
-
   });
 
   $ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function(e) {
     $(this).removeClass('is-active');
-  });
-
-  var $loginForm = $('#user-login-form');
-  $loginForm.find('button').click(function() {
-    $loginForm.submit();
   });
 })(jQuery);
